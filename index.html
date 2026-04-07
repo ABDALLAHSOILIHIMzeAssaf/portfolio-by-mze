@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mzé ABDALLAH | Développeur Fullstack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gradient principal */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-border {
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        /* Animations */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.2);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Typing cursor */
+        .typing-cursor {
+            border-right: 3px solid #667eea;
+            animation: blink 1s infinite;
+            padding-right: 4px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                border-color: transparent;
+            }
+
+            51%,
+            100% {
+                border-color: #667eea;
+            }
+        }
+
+        /* Nav link underline */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Progress bar animation */
+        .progress-bar {
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Floating shapes */
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Badge pulse */
+        .badge-pulse {
+            animation: pulseBadge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseBadge {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Scrollbar custom */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(#667eea, #764ba2);
+            border-radius: 3px;
+        }
+
+        /* Styles spécifiques au Blog*/
+        .blog-card-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .blog-card-skeleton-dark {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .blog-tag {
+            transition: all 0.2s ease;
+        }
+
+        .blog-tag:hover {
+            transform: scale(1.05);
+        }
+
+        .news-ticker {
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .category-pill {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .source-badge {
+            backdrop-filter: blur(4px);
+        }
+
+        .read-more-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .read-more-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .read-more-btn:hover::before {
+            left: 100%;
+        }
+
+        .refresh-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .countdown-bar {
+            transition: width linear;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback } = React;
+
+        /* ============================================
+           DONNÉES RÉELLES - MZÉ ABDALLAH
+        ============================================ */
+        const PERSONAL_DATA = {
+            name: "Mzé ABDALLAH",
+            firstName: "Mzé",
+            title: "Développeur Fullstack",
+            subtitle: "BTS SIO SLAM • Data Science • Cybersécurité",
+            email: "mze.abdallahsoilihi@gmail.com",
+            phone: "06 98 53 23 20",
+            location: "Melun (77)",
+            linkedin: "https://linkedin.com/in/mze-assaf/",
+            github: "https://github.com/", // ← AJOUTE TON VRAI LIEN
+            portfolio: "https://mze-assaf.netlify.app",
+            available: "Alternance disponible — Rentrée 2026",
+            bio: "Étudiant en BTS SIO SLAM, classé 7e sur +5 000 participants au hackathon national « Passe ton Hack ». Actuellement Data Scientist en alternance chez Kesk'IA, je développe des algorithmes d'IA prédictive pour le Crédit Agricole Île-de-France. Passionné par le code, les données et les défis techniques."
+        };
+
+        const TYPING_PHRASES = [
+            "Développeur Fullstack 💻",
+            "Data Scientist 📊",
+            "CTF Player — 7e/5000 🏆",
+            "Alternance 2026 🚀",
+            "BTS SIO SLAM 🎓"
+        ];
+
+        const SKILLS = [
+            { name: 'Python', level: 85, icon: '🐍', category: 'backend' },
+            { name: 'PHP', level: 75, icon: '🔧', category: 'backend' },
+            { name: 'SQL / MySQL', level: 80, icon: '🗄️', category: 'backend' },
+            { name: 'JavaScript', level: 78, icon: '⚡', category: 'frontend' },
+            { name: 'HTML / CSS', level: 90, icon: '🎨', category: 'frontend' },
+            { name: 'XGBoost / ML', level: 70, icon: '🤖', category: 'data' },
+            { name: 'Linux (Ubuntu)', level: 72, icon: '🐧', category: 'system' },
+            { name: 'Git', level: 75, icon: '📦', category: 'tools' },
+            { name: 'OSINT / Cybersec', level: 68, icon: '🔒', category: 'security' },
+        ];
+
+        const EXPERIENCES = [
+            {
+                id: 1,
+                role: "Data Scientist",
+                type: "Alternance",
+                company: "Kesk'IA (Evolukid)",
+                period: "Depuis janvier 2026",
+                current: true,
+                icon: "🤖",
+                color: "from-purple-500 to-indigo-600",
+                description: [
+                    "Algorithme Python (XGBoost) prédisant la rentabilité d'infrastructures → 20+ territoires analysés",
+                    "Projet RUSHE. : ML sur données réelles (énergie/budget communal) → +15% précision décisionnelle",
+                    "Pipeline complet : scraping → Pandas → XGBoost → dashboard Streamlit",
+                    "POC présenté à 10+ collectivités → 3 implémentations pilotes lancées"
+                ],
+                tags: ["Python", "XGBoost", "Pandas", "Streamlit", "Machine Learning"]
+            },
+            {
+                id: 2,
+                role: "Concurrent CTF",
+                type: "Compétition",
+                company: "Passe ton Hack",
+                period: "Déc. 2023 – Fév. 2024",
+                current: false,
+                icon: "🏆",
+                color: "from-yellow-500 to-orange-500",
+                description: [
+                    "🥇 Classé 7e sur +5 000 participants (tous niveaux d'études)",
+                    "Exploitation de vulnérabilités web : accès non autorisé via modification du code source",
+                    "Investigation OSINT : géolocalisation d'un lieu depuis un clip vidéo",
+                    "Cryptanalyse : déchiffrement d'un message militaire historique"
+                ],
+                tags: ["CTF", "OSINT", "Cryptanalyse", "Cybersécurité", "Web"]
+            },
+            {
+                id: 3,
+                role: "Développeur Web",
+                type: "Hackathon",
+                company: "Nuit du Code",
+                period: "Mai – Juin 2024",
+                current: false,
+                icon: "💻",
+                color: "from-green-500 to-teal-500",
+                description: [
+                    "Développement en équipe d'une application web en temps limité",
+                    "Stack : HTML, CSS, JavaScript",
+                    "Projet TenisByMze — [décris en une phrase ce que fait l'app]"
+                ],
+                tags: ["HTML", "CSS", "JavaScript", "Travail en équipe"]
+            }
+        ];
+
+        const PROJECTS = [
+            {
+                id: 1,
+                title: "Hotel Chambord",
+                subtitle: "Site vitrine full-stack",
+                description: "Site vitrine pour l'Hôtel Chambord : consultation des offres (chambres, restaurant, spa), réservation en ligne, gestion de compte client et candidatures aux offres d'emploi.",
+                emoji: "🏨",
+                color: "from-blue-500 to-cyan-500",
+                tech: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+                category: "fullstack",
+                github: "#", // ← ton lien GitHub
+                demo: "#",   // ← ton lien démo
+                featured: true
+            },
+            {
+                id: 2,
+                title: "Pixel Art",
+                subtitle: "Jeu interactif Python",
+                description: "Jeu développé en Python/Tkinter : deviner et colorier une image aléatoire (oiseau, drapeau Comores, Tintin) via une grille numérotée, avec compteur d'essais et aide interactive.",
+                emoji: "🎨",
+                color: "from-pink-500 to-rose-500",
+                tech: ["Python", "Tkinter", "Algorithmique"],
+                category: "python",
+                github: "#",
+                demo: null,
+                featured: true
+            },
+            {
+                id: 3,
+                title: "RUSHE.",
+                subtitle: "IA prédictive territoriale",
+                description: "Modèle Machine Learning analysant consommation énergétique et budget communal pour prédire la rentabilité d'investissements infrastructure. +15% de précision décisionnelle.",
+                emoji: "📊",
+                color: "from-violet-500 to-purple-600",
+                tech: ["Python", "XGBoost", "Pandas", "Streamlit"],
+                category: "data",
+                github: "#",
+                demo: "#",
+                featured: true
+            },
+            {
+                id: 4,
+                title: "TenisByMze",
+                subtitle: "Jeu web — Nuit du Code",
+                description: "Application web développée en équipe lors de la Nuit du Code, dans un temps limité. Jeu de tennis interactif en JavaScript.",
+                emoji: "🎾",
+                color: "from-green-500 to-emerald-500",
+                tech: ["HTML", "CSS", "JavaScript"],
+                category: "frontend",
+                github: "#",
+                demo: "#",
+                featured: false
+            }
+        ];
+
+        const ACHIEVEMENTS = [
+            { icon: "🏆", value: "7e/5000", label: "Passe ton Hack", sub: "Hackathon national" },
+            { icon: "🤖", value: "3", label: "Pilotes lancés", sub: "Collectivités territoriales" },
+            { icon: "📍", value: "20+", label: "Territoires analysés", sub: "Crédit Agricole IDF" },
+            { icon: "📈", value: "+15%", label: "Précision", sub: "Décisions d'investissement" }
+        ];
+
+        /* ============================================
+           COMPOSANT : ANIMATION DE FRAPPE
+        ============================================ */
+        const TypingAnimation = () => {
+            const [phraseIndex, setPhraseIndex] = useState(0);
+            const [charIndex, setCharIndex] = useState(0);
+            const [isDeleting, setIsDeleting] = useState(false);
+            const [displayText, setDisplayText] = useState('');
+
+            useEffect(() => {
+                const currentPhrase = TYPING_PHRASES[phraseIndex];
+                let timeout;
+
+                if (!isDeleting && charIndex < currentPhrase.length) {
+                    timeout = setTimeout(() => {
+                        setDisplayText(currentPhrase.slice(0, charIndex + 1));
+                        setCharIndex(c => c + 1);
+                    }, 80);
+                } else if (!isDeleting && charIndex === currentPhrase.length) {
+                    timeout = setTimeout(() => setIsDeleting(true), 2000);
+                } else if (isDeleting && charIndex > 0) {
+                    timeout = setTimeout(() => {
+                        setDisplayText(currentPhrase.slice(0, charIndex - 1));
+                        setCharIndex(c => c - 1);
+                    }, 40);
+                } else if (isDeleting && charIndex === 0) {
+                    setIsDeleting(false);
+                    setPhraseIndex(i => (i + 1) % TYPING_PHRASES.length);
+                }
+
+                return () => clearTimeout(timeout);
+            }, [charIndex, isDeleting, phraseIndex]);
+
+            return (
+                <span className="text-2xl md:text-3xl font-semibold gradient-text">
+                    <span className="typing-cursor">{displayText}</span>
+                </span>
+            );
+        };
+
+        /* ============================================
+           COMPOSANT : NAVIGATION
+        ============================================ */
+        const Navigation = ({ activeSection, setActiveSection, darkMode, setDarkMode }) => {
+            const [isScrolled, setIsScrolled] = useState(false);
+            const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setIsScrolled(window.scrollY > 20);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            // Ajoute "blog" dans le tableau navItems
+            const navItems = [
+                { id: 'home', label: 'Accueil' },
+                { id: 'about', label: 'À propos' },
+                { id: 'experience', label: 'Expériences' },
+                { id: 'projects', label: 'Projets' },
+                { id: 'blog', label: 'Blog 📰' }, //
+                { id: 'contact', label: 'Contact' }
+            ];
+
+            return (
+                <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
+                        ? (darkMode ? 'bg-gray-900/95 backdrop-blur-sm shadow-lg' : 'bg-white/95 backdrop-blur-sm shadow-lg')
+                        : (darkMode ? 'bg-transparent' : 'bg-transparent')
+                    }`}>
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="flex justify-between items-center h-16">
+
+                            {/* Logo */}
+                            <button
+                                onClick={() => setActiveSection('home')}
+                                className="font-bold text-xl gradient-text"
+                            >
+                                Mzé.dev
+                            </button>
+
+                            {/* Desktop nav */}
+                            <div className="hidden md:flex items-center space-x-1">
+                                {navItems.map(item => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => setActiveSection(item.id)}
+                                        className={`nav-link px-4 py-2 text-sm font-medium rounded-lg transition-all ${activeSection === item.id
+                                                ? 'text-violet-600 active'
+                                                : darkMode
+                                                    ? 'text-gray-300 hover:text-white'
+                                                    : 'text-gray-600 hover:text-violet-600'
+                                            }`}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+
+                                {/* Dark mode toggle */}
+                                <button
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className={`ml-4 p-2 rounded-lg transition-all ${darkMode
+                                            ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700'
+                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                >
+                                    {darkMode ? '☀️' : '🌙'}
+                                </button>
+
+                                {/* CTA Button */}
+                                <button
+                                    onClick={() => setActiveSection('contact')}
+                                    className="ml-4 gradient-bg text-white px-5 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-all hover:scale-105"
+                                >
+                                    Me contacter
+                                </button>
+                            </div>
+
+                            {/* Mobile */}
+                            <div className="md:hidden flex items-center gap-2">
+                                <button
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className={`p-2 rounded-lg ${darkMode ? 'text-yellow-400' : 'text-gray-600'}`}
+                                >
+                                    {darkMode ? '☀️' : '🌙'}
+                                </button>
+                                <button
+                                    onClick={() => setIsMobileOpen(!isMobileOpen)}
+                                    className={`p-2 rounded-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                                >
+                                    {isMobileOpen ? '✕' : '☰'}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Mobile menu */}
+                        {isMobileOpen && (
+                            <div className={`md:hidden rounded-xl mb-4 p-4 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl`}>
+                                {navItems.map(item => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => { setActiveSection(item.id); setIsMobileOpen(false); }}
+                                        className={`block w-full text-left px-4 py-3 rounded-lg font-medium mb-1 transition-all ${activeSection === item.id
+                                                ? 'gradient-bg text-white'
+                                                : darkMode
+                                                    ? 'text-gray-300 hover:bg-gray-700'
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                            }`}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </nav>
+            );
+        };
+
+        /* ============================================
+           SECTION : HERO
+        ============================================ */
+        const HeroSection = ({ darkMode, setActiveSection }) => {
+            return (
+                <section className={`min-h-screen flex items-center justify-center relative overflow-hidden pt-16 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-slate-50 via-blue-50 to-violet-50'
+                    }`}>
+                    {/* Background decoratif */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                        <div className="absolute -top-40 -right-40 w-80 h-80 bg-violet-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 float-animation"></div>
+                        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 float-animation" style={{ animationDelay: '1s' }}></div>
+                        <div className="absolute top-40 left-1/2 w-60 h-60 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 float-animation" style={{ animationDelay: '2s' }}></div>
+                    </div>
+
+                    <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
+
+                        {/* Badge disponibilité */}
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 badge-pulse
+                        bg-green-100 text-green-800 border border-green-200">
+                            <span className="w-2 h-2 bg-green-500 rounded-full inline-block animate-pulse"></span>
+                            <span className="text-sm font-medium">Disponible pour alternance — Rentrée 2026</span>
+                        </div>
+
+                        {/* Photo / Avatar */}
+                        <div className="w-36 h-36 mx-auto mb-8 relative">
+                            <div className="w-full h-full rounded-full gradient-bg flex items-center justify-center text-7xl shadow-2xl">
+                                    {/* Initiales */}
+                                {<img src="Mze_pro.png" className="w-full h-full rounded-full object-cover" alt="Mzé ABDALLAH" /> }
+                            </div>
+                            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-lg shadow-lg">
+                                🏆
+                            </div>
+                        </div>
+
+                        {/* Nom */}
+                        <h1 className={`text-5xl md:text-7xl font-extrabold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                            Mzé{' '}
+                            <span className="gradient-text">ABDALLAH</span>
+                        </h1>
+
+                        {/* Animation frappe */}
+                        <div className="h-10 mb-6">
+                            <TypingAnimation />
+                        </div>
+
+                        {/* Bio courte */}
+                        <p className={`text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'
+                            }`}>
+                            {PERSONAL_DATA.bio}
+                        </p>
+
+                        {/* Stats rapides */}
+                        <div className="flex flex-wrap justify-center gap-6 mb-10">
+                            {ACHIEVEMENTS.map((achievement, i) => (
+                                <div key={i} className={`text-center px-6 py-4 rounded-2xl ${darkMode ? 'bg-gray-800' : 'bg-white'
+                                    } shadow-lg hover:shadow-xl transition-all hover:-translate-y-1`}>
+                                    <div className="text-2xl mb-1">{achievement.icon}</div>
+                                    <div className="text-2xl font-bold gradient-text">{achievement.value}</div>
+                                    <div className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                        {achievement.label}
+                                    </div>
+                                    <div className={`text-xs ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                                        {achievement.sub}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button
+                                onClick={() => setActiveSection('projects')}
+                                className="gradient-bg text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 hover:scale-105 transition-all shadow-lg"
+                            >
+                                🚀 Voir mes projets
+                            </button>
+                            <a
+                                href="https://linkedin.com/in/mze-assaf/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`px-8 py-4 rounded-full font-bold text-lg border-2 border-violet-500 text-violet-600 hover:bg-violet-500 hover:text-white transition-all`}
+                            >
+                                💼 LinkedIn
+                            </a>
+                            {/* ← LIEN VERS TON CV PDF */}
+                            <a
+                                href="https://cv-numerique-by-mze.netlify.app/"
+                                download
+                                className={`px-8 py-4 rounded-full font-bold text-lg border-2 transition-all ${darkMode
+                                        ? 'border-gray-600 text-gray-300 hover:bg-gray-800'
+                                        : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+                                    }`}
+                            >
+                                📄 Télécharger CV
+                            </a>
+                        </div>
+
+                        {/* Scroll indicator */}
+                        <div className="mt-16 animate-bounce">
+                            <div className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>↓ Découvrir</div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ============================================
+           SECTION : À PROPOS
+        ============================================ */
+        const AboutSection = ({ darkMode }) => {
+            const [animatedSkills, setAnimatedSkills] = useState(false);
+
+            useEffect(() => {
+                const timer = setTimeout(() => setAnimatedSkills(true), 300);
+                return () => clearTimeout(timer);
+            }, []);
+
+            const skillCategories = [
+                {
+                    label: "Backend & Data",
+                    icon: "⚙️",
+                    skills: SKILLS.filter(s => s.category === 'backend' || s.category === 'data')
+                },
+                {
+                    label: "Frontend",
+                    icon: "🎨",
+                    skills: SKILLS.filter(s => s.category === 'frontend')
+                },
+                {
+                    label: "Système & Sécurité",
+                    icon: "🔒",
+                    skills: SKILLS.filter(s => s.category === 'system' || s.category === 'security' || s.category === 'tools')
+                }
+            ];
+
+            const timeline = [
+                {
+                    year: "2024 – 2025",
+                    title: "Baccalauréat Général",
+                    place: "Lycée Joliot Curie, Dammarie",
+                    icon: "🎓"
+                },
+                {
+                    year: "2025 – 2027",
+                    title: "BTS SIO — Option SLAM",
+                    place: "Lycée Léonard de Vinci, Melun",
+                    icon: "🏫"
+                },
+                {
+                    year: "Jan. 2026 →",
+                    title: "Alternance Data Scientist",
+                    place: "Kesk'IA (Evolukid)",
+                    icon: "🤖",
+                    current: true
+                }
+            ];
+
+            const languages = [
+                { lang: "Français", level: "C1", flag: "🇫🇷", percent: 90 },
+                { lang: "Swahili", level: "C2", flag: "🇰🇲", percent: 100 },
+                { lang: "Anglais", level: "B1", flag: "🇬🇧", percent: 55 },
+                { lang: "Espagnol", level: "A2", flag: "🇪🇸", percent: 25 }
+            ];
+
+            return (
+                <section className={`py-24 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                    <div className="max-w-6xl mx-auto px-4">
+
+                        {/* Header */}
+                        <div className="text-center mb-16">
+                            <span className="text-sm font-semibold gradient-text uppercase tracking-widest">
+                                Qui suis-je ?
+                            </span>
+                            <h2 className={`text-4xl md:text-5xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                À propos de moi
+                            </h2>
+                        </div>
+
+                        <div className="grid lg:grid-cols-2 gap-16 mb-16">
+
+                            {/* Gauche : Bio + Timeline */}
+                            <div>
+                                <p className={`text-lg leading-relaxed mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                    Étudiant en <strong>BTS SIO SLAM</strong> au lycée Léonard de Vinci (Melun),
+                                    passionné par le développement web et la data science depuis plusieurs années.
+                                    Autonome, curieux et orienté résultats — je cherche à apporter de la valeur
+                                    réelle dès le premier jour.
+                                </p>
+
+                                {/* Timeline */}
+                                <h3 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                    📍 Mon parcours
+                                </h3>
+                                <div className="relative">
+                                    <div className="absolute left-6 top-0 bottom-0 w-0.5 gradient-bg"></div>
+                                    {timeline.map((item, i) => (
+                                        <div key={i} className="relative flex items-start mb-8 pl-16">
+                                            <div className={`absolute left-0 w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-lg ${item.current ? 'gradient-bg' : (darkMode ? 'bg-gray-700' : 'bg-gray-100')
+                                                }`}>
+                                                {item.icon}
+                                            </div>
+                                            <div>
+                                                <span className="text-xs font-semibold gradient-text uppercase tracking-wide">
+                                                    {item.year}
+                                                </span>
+                                                <h4 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                                    {item.title}
+                                                    {item.current && (
+                                                        <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                                                            En cours
+                                                        </span>
+                                                    )}
+                                                </h4>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                    {item.place}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Langues */}
+                                <h3 className={`text-xl font-bold mb-4 mt-8 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                    🌍 Langues
+                                </h3>
+                                <div className="space-y-3">
+                                    {languages.map((l, i) => (
+                                        <div key={i}>
+                                            <div className="flex justify-between items-center mb-1">
+                                                <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                    {l.flag} {l.lang}
+                                                </span>
+                                                <span className="text-xs font-bold gradient-text">{l.level}</span>
+                                            </div>
+                                            <div className={`w-full rounded-full h-2 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                                                <div
+                                                    className="gradient-bg h-2 rounded-full progress-bar"
+                                                    style={{ width: animatedSkills ? `${l.percent}%` : '0%' }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Droite : Compétences */}
+                            <div>
+                                <h3 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                    🛠️ Compétences techniques
+                                </h3>
+                                {skillCategories.map((cat, ci) => (
+                                    <div key={ci} className="mb-8">
+                                        <h4 className={`text-sm font-semibold uppercase tracking-wide mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'
+                                            }`}>
+                                            {cat.icon} {cat.label}
+                                        </h4>
+                                        <div className="space-y-3">
+                                            {cat.skills.map((skill, si) => (
+                                                <div key={si}>
+                                                    <div className="flex justify-between items-center mb-1">
+                                                        <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                            {skill.icon} {skill.name}
+                                                        </span>
+                                                        <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                            {skill.level}%
+                                                        </span>
+                                                    </div>
+                                                    <div className={`w-full rounded-full h-2.5 ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                                                        <div
+                                                            className="gradient-bg h-2.5 rounded-full progress-bar"
+                                                            style={{ width: animatedSkills ? `${skill.level}%` : '0%' }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {/* Soft skills */}
+                                <div className={`p-5 rounded-2xl ${darkMode ? 'bg-gray-700' : 'bg-violet-50'}`}>
+                                    <h4 className={`font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                                        💡 Soft Skills
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {[
+                                            "Travail en équipe", "Autonomie",
+                                            "Présentation orale", "Capacité d'analyse",
+                                            "Curiosité", "Résolution de problèmes"
+                                        ].map((skill, i) => (
+                                            <span key={i} className={`px-3 py-1.5 rounded-full text-sm font-medium ${darkMode
+                                                    ? 'bg-gray-600 text-gray-200'
+                                                    : 'bg-white text-violet-700 border border-violet-200'
+                                                }`}>
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ============================================
+           SECTION : EXPÉRIENCES
+        ============================================ */
+        const ExperienceSection = ({ darkMode }) => {
+            const [selected, setSelected] = useState(0);
+
+            return (
+                <section className={`py-24 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+                    <div className="max-w-6xl mx-auto px-4">
+
+                        <div className="text-center mb-16">
+                            <span className="text-sm font-semibold gradient-text uppercase tracking-widest">
+                                Parcours
+                            </span>
+                            <h2 className={`text-4xl md:text-5xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                Expériences
+                            </h2>
+                        </div>
+
+                        <div className="grid lg:grid-cols-3 gap-4 mb-8">
+                            {EXPERIENCES.map((exp, i) => (
+                                <button
+                                    key={exp.id}
+                                    onClick={() => setSelected(i)}
+                                    className={`p-5 rounded-2xl text-left transition-all ${selected === i
+                                            ? 'gradient-bg text-white shadow-xl scale-105'
+                                            : darkMode
+                                                ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                                : 'bg-white text-gray-700 hover:shadow-md'
+                                        }`}
+                                >
+                                    <div className="text-3xl mb-3">{exp.icon}</div>
+                                    <div className={`text-xs font-bold uppercase mb-1 ${selected === i ? 'text-white/70' : 'text-violet-500'
+                                        }`}>
+                                        {exp.type}
+                                    </div>
+                                    <div className="font-bold text-lg">{exp.role}</div>
+                                    <div className={`text-sm ${selected === i ? 'text-white/80' : ''}`}>
+                                        {exp.company}
+                                    </div>
+                                    <div className={`text-xs mt-2 ${selected === i ? 'text-white/60' : darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                                        {exp.period}
+                                        {exp.current && (
+                                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${selected === i ? 'bg-white/20' : 'bg-green-100 text-green-700'
+                                                }`}>
+                                                En cours
+                                            </span>
+                                        )}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Détail */}
+                        <div className={`rounded-3xl p-8 slide-in ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl`}>
+                            <div className="flex items-start gap-6 mb-8">
+                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${EXPERIENCES[selected].color} flex items-center justify-center text-3xl flex-shrink-0`}>
+                                    {EXPERIENCES[selected].icon}
+                                </div>
+                                <div>
+                                    <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                        {EXPERIENCES[selected].role}
+                                    </h3>
+                                    <p className={`font-semibold ${darkMode ? 'text-violet-400' : 'text-violet-600'}`}>
+                                        {EXPERIENCES[selected].company} • {EXPERIENCES[selected].period}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <ul className="space-y-4 mb-8">
+                                {EXPERIENCES[selected].description.map((point, i) => (
+                                    <li key={i} className="flex items-start gap-3">
+                                        <span className="mt-1 w-2 h-2 rounded-full gradient-bg flex-shrink-0"></span>
+                                        <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+                                            {point}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="flex flex-wrap gap-2">
+                                {EXPERIENCES[selected].tags.map((tag, i) => (
+                                    <span key={i} className={`px-4 py-2 rounded-full text-sm font-semibold ${darkMode
+                                            ? 'bg-gray-700 text-violet-300'
+                                            : 'bg-violet-50 text-violet-700 border border-violet-200'
+                                        }`}>
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ============================================
+           SECTION : PROJETS
+        ============================================ */
+        const ProjectsSection = ({ darkMode }) => {
+            const [filter, setFilter] = useState('all');
+
+            const categories = [
+                { id: 'all', label: 'Tous', icon: '🌟' },
+                { id: 'fullstack', label: 'Full-Stack', icon: '🚀' },
+                { id: 'data', label: 'Data / IA', icon: '🤖' },
+                { id: 'frontend', label: 'Frontend', icon: '🎨' },
+                { id: 'python', label: 'Python', icon: '🐍' }
+            ];
+
+            const filtered = filter === 'all'
+                ? PROJECTS
+                : PROJECTS.filter(p => p.category === filter);
+
+            return (
+                <section className={`py-24 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                    <div className="max-w-6xl mx-auto px-4">
+
+                        <div className="text-center mb-16">
+                            <span className="text-sm font-semibold gradient-text uppercase tracking-widest">
+                                Ce que j'ai créé
+                            </span>
+                            <h2 className={`text-4xl md:text-5xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                Mes Projets
+                            </h2>
+                        </div>
+
+                        {/* Filtres */}
+                        <div className="flex flex-wrap justify-center gap-3 mb-12">
+                            {categories.map(cat => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => setFilter(cat.id)}
+                                    className={`px-5 py-2.5 rounded-full font-medium transition-all text-sm ${filter === cat.id
+                                            ? 'gradient-bg text-white shadow-lg scale-105'
+                                            : darkMode
+                                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                >
+                                    {cat.icon} {cat.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Grille */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                            {filtered.map(project => (
+                                <div
+                                    key={project.id}
+                                    className={`card-hover rounded-3xl overflow-hidden ${darkMode ? 'bg-gray-900' : 'bg-gray-50'
+                                        } ${project.featured ? 'ring-2 ring-violet-500/30' : ''}`}
+                                >
+                                    {/* Header coloré */}
+                                    <div className={`bg-gradient-to-r ${project.color} p-8 flex items-center justify-between`}>
+                                        <div className="text-6xl">{project.emoji}</div>
+                                        {project.featured && (
+                                            <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                                ⭐ Featured
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div className="p-6">
+                                        <div className="mb-1">
+                                            <span className={`text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-gray-400' : 'text-gray-500'
+                                                }`}>
+                                                {project.subtitle}
+                                            </span>
+                                        </div>
+                                        <h3 className={`text-xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                            {project.title}
+                                        </h3>
+                                        <p className={`text-sm leading-relaxed mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                            {project.description}
+                                        </p>
+
+                                        {/* Tech stack */}
+                                        <div className="flex flex-wrap gap-2 mb-6">
+                                            {project.tech.map((t, i) => (
+                                                <span key={i} className={`px-3 py-1 rounded-full text-xs font-semibold ${darkMode
+                                                        ? 'bg-gray-800 text-gray-300'
+                                                        : 'bg-white text-gray-700 border border-gray-200'
+                                                    }`}>
+                                                    {t}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        {/* Boutons */}
+                                        <div className="flex gap-3">
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={`flex-1 text-center py-2.5 rounded-xl font-medium text-sm transition-all border ${darkMode
+                                                        ? 'border-gray-600 text-gray-300 hover:bg-gray-800'
+                                                        : 'border-gray-200 text-gray-700 hover:bg-gray-100'
+                                                    }`}
+                                            >
+                                                🐙 GitHub
+                                            </a>
+                                            {project.demo && (
+                                                <a
+                                                    href={project.demo}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-1 text-center py-2.5 rounded-xl font-medium text-sm gradient-bg text-white hover:opacity-90 transition-all"
+                                                >
+                                                    🚀 Voir le projet
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* CTA GitHub */}
+                        <div className="text-center mt-12">
+                            <a
+                                href={PERSONAL_DATA.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-lg border-2 transition-all ${darkMode
+                                        ? 'border-gray-600 text-gray-300 hover:border-violet-500 hover:text-violet-400'
+                                        : 'border-gray-300 text-gray-700 hover:border-violet-500 hover:text-violet-600'
+                                    }`}
+                            >
+                                🐙 Voir tous mes projets sur GitHub
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ============================================
+       SECTION BLOG - COLLE CE COMPOSANT 
+       dans ton fichier React, après ProjectsSection
+       et avant ContactSection
+    ============================================ */
+
+        /* ---------- CONFIGURATION DES SOURCES ---------- */
+        const BLOG_CONFIG = {
+            // Refresh toutes les 12 heures (en ms)
+            REFRESH_INTERVAL: 12 * 60 * 60 * 1000,
+
+            // Clé localStorage pour le cache
+            CACHE_KEY: 'mze_blog_cache',
+            CACHE_TIMESTAMP_KEY: 'mze_blog_timestamp',
+
+            // Nombre d'articles par source
+            ARTICLES_PER_SOURCE: 8,
+
+            // Sources RSS via proxy public (pas de CORS)
+            RSS_PROXY: 'https://api.rss2json.com/v1/api.json?rss_url=',
+
+            // Catégories disponibles
+            CATEGORIES: [
+                { id: 'all', label: 'Tout', icon: '🌟', color: 'from-violet-500 to-purple-600' },
+                { id: 'webdev', label: 'Dev Web', icon: '💻', color: 'from-blue-500 to-cyan-500' },
+                { id: 'data-ai', label: 'Data & IA', icon: '🤖', color: 'from-purple-500 to-pink-500' },
+                { id: 'cybersec', label: 'Cybersécurité', icon: '🔒', color: 'from-red-500 to-orange-500' },
+                { id: 'open-source', label: 'Open Source', icon: '🐙', color: 'from-green-500 to-emerald-500' },
+                { id: 'tools', label: 'Outils & DevOps', icon: '⚙️', color: 'from-yellow-500 to-orange-400' },
+            ]
+        };
+
+        /* ---------- SOURCES D'ARTICLES ---------- */
+        const BLOG_SOURCES = [
+            // ✅ Dev.to API — Pas de CORS, gratuit
+            {
+                name: 'Dev.to',
+                icon: '👩‍💻',
+                color: 'from-gray-800 to-gray-900',
+                type: 'devto',
+                endpoints: [
+                    {
+                        url: `https://dev.to/api/articles?tag=webdev&per_page=${BLOG_CONFIG.ARTICLES_PER_SOURCE}&top=7`,
+                        category: 'webdev'
+                    },
+                    {
+                        url: `https://dev.to/api/articles?tag=python&per_page=${BLOG_CONFIG.ARTICLES_PER_SOURCE}&top=7`,
+                        category: 'data-ai'
+                    },
+                    {
+                        url: `https://dev.to/api/articles?tag=security&per_page=${BLOG_CONFIG.ARTICLES_PER_SOURCE}&top=7`,
+                        category: 'cybersec'
+                    },
+                    {
+                        url: `https://dev.to/api/articles?tag=opensource&per_page=${BLOG_CONFIG.ARTICLES_PER_SOURCE}&top=7`,
+                        category: 'open-source'
+                    },
+                    {
+                        url: `https://dev.to/api/articles?tag=devops&per_page=${BLOG_CONFIG.ARTICLES_PER_SOURCE}&top=7`,
+                        category: 'tools'
+                    },
+                    {
+                        url: `https://dev.to/api/articles?tag=machinelearning&per_page=${BLOG_CONFIG.ARTICLES_PER_SOURCE}&top=7`,
+                        category: 'data-ai'
+                    }
+                ]
+            },
+            // ✅ Hacker News API — Pas de CORS, gratuit
+            {
+                name: 'Hacker News',
+                icon: '🔶',
+                color: 'from-orange-500 to-red-500',
+                type: 'hackernews'
+            }
+        ];
+
+        /* ---------- MOTS-CLÉS PAR CATÉGORIE ---------- */
+        const CATEGORY_KEYWORDS = {
+            'webdev': ['javascript', 'react', 'vue', 'css', 'html', 'frontend', 'backend', 'node', 'typescript', 'web'],
+            'data-ai': ['machine learning', 'ai', 'python', 'data', 'neural', 'gpt', 'llm', 'tensorflow', 'ml', 'artificial intelligence'],
+            'cybersec': ['security', 'hack', 'vulnerability', 'exploit', 'cyber', 'breach', 'privacy', 'encryption', 'malware', 'osint'],
+            'open-source': ['open source', 'github', 'linux', 'git', 'open-source', 'community', 'contribution'],
+            'tools': ['docker', 'kubernetes', 'devops', 'ci/cd', 'cloud', 'aws', 'tool', 'automation', 'deploy']
+        };
+
+        /* ---------- FONCTION : Deviner catégorie ---------- */
+        const guessCategory = (title = '', description = '') => {
+            const text = `${title} ${description}`.toLowerCase();
+            for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+                if (keywords.some(kw => text.includes(kw))) return cat;
+            }
+            return 'webdev'; // default
+        };
+
+        /* ---------- FONCTION : Formater date ---------- */
+        const formatDate = (dateStr) => {
+            try {
+                const date = new Date(dateStr);
+                const now = new Date();
+                const diff = Math.floor((now - date) / 1000);
+
+                if (diff < 3600) return `Il y a ${Math.floor(diff / 60)} min`;
+                if (diff < 86400) return `Il y a ${Math.floor(diff / 3600)}h`;
+                if (diff < 604800) return `Il y a ${Math.floor(diff / 86400)} jours`;
+
+                return date.toLocaleDateString('fr-FR', {
+                    day: 'numeric', month: 'short', year: 'numeric'
+                });
+            } catch { return 'Récent'; }
+        };
+
+        /* ---------- FONCTION : Temps de lecture ---------- */
+        const estimateReadTime = (text = '') => {
+            const words = text.split(' ').length;
+            const minutes = Math.max(1, Math.ceil(words / 200));
+            return `${minutes} min`;
+        };
+
+        /* ---------- FETCH : Dev.to articles ---------- */
+        const fetchDevToArticles = async (endpoint) => {
+            const response = await fetch(endpoint.url);
+            if (!response.ok) throw new Error('Dev.to API error');
+            const data = await response.json();
+
+            return data.map(article => ({
+                id: `devto-${article.id}`,
+                title: article.title,
+                description: article.description || article.body_markdown?.slice(0, 200) || '',
+                url: article.url,
+                image: article.cover_image || article.social_image || null,
+                source: 'Dev.to',
+                sourceIcon: '👩‍💻',
+                sourceColor: 'from-gray-700 to-gray-900',
+                author: article.user?.name || 'Dev.to',
+                authorAvatar: article.user?.profile_image_90 || null,
+                publishedAt: article.published_at,
+                readTime: `${article.reading_time_minutes || 3} min`,
+                tags: article.tag_list || [],
+                reactions: article.public_reactions_count || 0,
+                comments: article.comments_count || 0,
+                category: endpoint.category || guessCategory(article.title, article.description)
+            }));
+        };
+
+        /* ---------- FETCH : Hacker News ---------- */
+        const fetchHackerNews = async () => {
+            // Récupère les top stories
+            const idsRes = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
+            const ids = await idsRes.json();
+
+            // Prend les 20 premiers
+            const top20 = ids.slice(0, 20);
+
+            const articles = await Promise.allSettled(
+                top20.map(id =>
+                    fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+                        .then(r => r.json())
+                )
+            );
+
+            return articles
+                .filter(r => r.status === 'fulfilled' && r.value?.url && r.value?.title)
+                .map(r => r.value)
+                .map(item => ({
+                    id: `hn-${item.id}`,
+                    title: item.title,
+                    description: `${item.score} points • ${item.descendants || 0} commentaires sur Hacker News`,
+                    url: item.url,
+                    image: null,
+                    source: 'Hacker News',
+                    sourceIcon: '🔶',
+                    sourceColor: 'from-orange-500 to-red-500',
+                    author: item.by || 'HN User',
+                    authorAvatar: null,
+                    publishedAt: new Date(item.time * 1000).toISOString(),
+                    readTime: '3 min',
+                    tags: [],
+                    reactions: item.score || 0,
+                    comments: item.descendants || 0,
+                    category: guessCategory(item.title, '')
+                }));
+        };
+
+        /* ---------- FETCH TOUTES LES SOURCES ---------- */
+        const fetchAllArticles = async () => {
+            const results = [];
+
+            // Dev.to — toutes les catégories
+            const devtoPromises = BLOG_SOURCES[0].endpoints.map(ep =>
+                fetchDevToArticles(ep).catch(err => {
+                    console.warn(`Dev.to fetch failed for ${ep.category}:`, err);
+                    return [];
+                })
+            );
+
+            const devtoResults = await Promise.allSettled(devtoPromises);
+            devtoResults.forEach(r => {
+                if (r.status === 'fulfilled') results.push(...r.value);
+            });
+
+            // Hacker News
+            try {
+                const hnArticles = await fetchHackerNews();
+                results.push(...hnArticles);
+            } catch (err) {
+                console.warn('Hacker News fetch failed:', err);
+            }
+
+            // Déduplique par titre
+            const seen = new Set();
+            const unique = results.filter(article => {
+                const key = article.title.toLowerCase().slice(0, 50);
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+
+            // Trie par date (plus récent d'abord)
+            return unique.sort((a, b) =>
+                new Date(b.publishedAt) - new Date(a.publishedAt)
+            );
+        };
+
+        /* ============================================
+           COMPOSANT : SKELETON CARD
+        ============================================ */
+        const SkeletonCard = ({ darkMode }) => (
+            <div className={`rounded-2xl overflow-hidden ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
+                <div className={`h-44 ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                <div className="p-5 space-y-3">
+                    <div className={`h-3 w-20 rounded ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                    <div className={`h-5 rounded ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                    <div className={`h-5 w-3/4 rounded ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                    <div className={`h-4 rounded ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                    <div className={`h-4 w-2/3 rounded ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                    <div className="flex gap-2 mt-4">
+                        <div className={`h-6 w-16 rounded-full ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                        <div className={`h-6 w-20 rounded-full ${darkMode ? 'blog-card-skeleton-dark' : 'blog-card-skeleton'}`}></div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        /* ============================================
+           COMPOSANT : ARTICLE CARD
+        ============================================ */
+        const ArticleCard = ({ article, darkMode }) => {
+            const [imgError, setImgError] = useState(false);
+
+            const categoryConfig = BLOG_CONFIG.CATEGORIES.find(c => c.id === article.category)
+                || BLOG_CONFIG.CATEGORIES[1];
+
+            return (
+                <article className={`card-hover rounded-2xl overflow-hidden flex flex-col h-full ${darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'
+                    } shadow-md`}>
+
+                    {/* Image ou fallback coloré */}
+                    <div className="relative h-44 overflow-hidden flex-shrink-0">
+                        {article.image && !imgError ? (
+                            <>
+                                <img
+                                    src={article.image}
+                                    alt={article.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                                    onError={() => setImgError(true)}
+                                    loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                            </>
+                        ) : (
+                            <div className={`w-full h-full bg-gradient-to-br ${categoryConfig.color} flex items-center justify-center`}>
+                                <span className="text-6xl opacity-80">{categoryConfig.icon}</span>
+                            </div>
+                        )}
+
+                        {/* Source badge */}
+                        <div className="absolute top-3 left-3">
+                            <span className={`source-badge px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${article.sourceColor} shadow-lg`}>
+                                {article.sourceIcon} {article.source}
+                            </span>
+                        </div>
+
+                        {/* Category badge */}
+                        <div className="absolute top-3 right-3">
+                            <span className={`source-badge px-2 py-1 rounded-full text-xs font-semibold bg-black/40 text-white backdrop-blur-sm`}>
+                                {categoryConfig.icon} {categoryConfig.label}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Contenu */}
+                    <div className="p-5 flex flex-col flex-1">
+
+                        {/* Meta info */}
+                        <div className={`flex items-center gap-3 text-xs mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {article.authorAvatar ? (
+                                <img
+                                    src={article.authorAvatar}
+                                    alt={article.author}
+                                    className="w-5 h-5 rounded-full"
+                                    onError={e => e.target.style.display = 'none'}
+                                />
+                            ) : (
+                                <span className="w-5 h-5 rounded-full gradient-bg flex items-center justify-center text-white text-xs">
+                                    {article.author?.[0]?.toUpperCase() || '?'}
+                                </span>
+                            )}
+                            <span className="font-medium truncate max-w-[100px]">{article.author}</span>
+                            <span>·</span>
+                            <span>{formatDate(article.publishedAt)}</span>
+                            <span>·</span>
+                            <span>⏱ {article.readTime}</span>
+                        </div>
+
+                        {/* Titre */}
+                        <h3 className={`font-bold text-base leading-snug mb-3 line-clamp-2 flex-1 ${darkMode ? 'text-white' : 'text-gray-900'
+                            }`}>
+                            {article.title}
+                        </h3>
+
+                        {/* Description */}
+                        {article.description && (
+                            <p className={`text-sm leading-relaxed line-clamp-2 mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'
+                                }`}>
+                                {article.description}
+                            </p>
+                        )}
+
+                        {/* Tags */}
+                        {article.tags && article.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 mb-4">
+                                {article.tags.slice(0, 3).map((tag, i) => (
+                                    <span key={i} className={`blog-tag px-2.5 py-0.5 rounded-full text-xs font-medium ${darkMode
+                                            ? 'bg-gray-700 text-gray-300'
+                                            : 'bg-gray-100 text-gray-600'
+                                        }`}>
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Footer : stats + bouton */}
+                        <div className="flex items-center justify-between mt-auto pt-3 border-t border-dashed
+          border-gray-200 dark:border-gray-700">
+                            <div className={`flex items-center gap-3 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                {article.reactions > 0 && (
+                                    <span className="flex items-center gap-1">
+                                        ❤️ {article.reactions > 1000
+                                            ? `${(article.reactions / 1000).toFixed(1)}k`
+                                            : article.reactions}
+                                    </span>
+                                )}
+                                {article.comments > 0 && (
+                                    <span className="flex items-center gap-1">
+                                        💬 {article.comments}
+                                    </span>
+                                )}
+                            </div>
+                            <a
+                                href={article.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="read-more-btn gradient-bg text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-90 transition-all hover:scale-105"
+                            >
+                                Lire →
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            );
+        };
+
+        /* ============================================
+           COMPOSANT : NEWS TICKER (bandeau défilant)
+        ============================================ */
+        const NewsTicker = ({ articles, darkMode }) => {
+            if (!articles || articles.length === 0) return null;
+
+            const tickerItems = articles.slice(0, 10);
+
+            return (
+                <div className={`overflow-hidden py-2.5 px-4 ${darkMode ? 'bg-gray-900 border-y border-gray-700' : 'bg-gray-900'
+                    }`}>
+                    <div className="flex items-center gap-4">
+                        <span className="gradient-bg text-white text-xs font-bold px-3 py-1 rounded-full flex-shrink-0 z-10">
+                            🔴 LIVE
+                        </span>
+                        <div className="overflow-hidden flex-1">
+                            <div className="news-ticker flex gap-8 whitespace-nowrap">
+                                {[...tickerItems, ...tickerItems].map((article, i) => (
+                                    <a
+                                        key={i}
+                                        href={article.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-300 text-sm hover:text-white transition-colors flex-shrink-0"
+                                    >
+                                        {article.sourceIcon} {article.title.slice(0, 60)}
+                                        {article.title.length > 60 ? '...' : ''}
+                                        <span className="ml-4 text-gray-600">•</span>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        /* ============================================
+           COMPOSANT : COMPTEUR REFRESH
+        ============================================ */
+        const RefreshCountdown = ({ nextRefresh, darkMode, onForceRefresh, isLoading }) => {
+            const [timeLeft, setTimeLeft] = useState('');
+            const [percent, setPercent] = useState(100);
+
+            useEffect(() => {
+                const update = () => {
+                    const now = Date.now();
+                    const diff = nextRefresh - now;
+
+                    if (diff <= 0) {
+                        setTimeLeft('Actualisation...');
+                        setPercent(0);
+                        return;
+                    }
+
+                    const hours = Math.floor(diff / 3600000);
+                    const minutes = Math.floor((diff % 3600000) / 60000);
+                    const seconds = Math.floor((diff % 60000) / 1000);
+
+                    setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+                    setPercent(Math.round((diff / BLOG_CONFIG.REFRESH_INTERVAL) * 100));
+                };
+
+                update();
+                const interval = setInterval(update, 1000);
+                return () => clearInterval(interval);
+            }, [nextRefresh]);
+
+            return (
+                <div className={`flex items-center gap-3 px-4 py-2 rounded-full text-sm ${darkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'
+                    } shadow-sm`}>
+                    <div className="flex items-center gap-2">
+                        <div className={`w-24 h-1.5 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} overflow-hidden`}>
+                            <div
+                                className="h-full gradient-bg countdown-bar rounded-full"
+                                style={{ width: `${percent}%` }}
+                            ></div>
+                        </div>
+                        <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            Refresh dans {timeLeft}
+                        </span>
+                    </div>
+                    <button
+                        onClick={onForceRefresh}
+                        disabled={isLoading}
+                        className={`text-xs px-3 py-1 rounded-full font-medium transition-all ${darkMode
+                                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            } disabled:opacity-50`}
+                        title="Forcer l'actualisation"
+                    >
+                        <span className={isLoading ? 'refresh-spin inline-block' : ''}>🔄</span>
+                    </button>
+                </div>
+            );
+        };
+
+        /* ============================================
+           COMPOSANT : ARTICLE FEATURED (hero)
+        ============================================ */
+        const FeaturedArticle = ({ article, darkMode }) => {
+            if (!article) return null;
+
+            const [imgError, setImgError] = useState(false);
+            const categoryConfig = BLOG_CONFIG.CATEGORIES.find(c => c.id === article.category)
+                || BLOG_CONFIG.CATEGORIES[1];
+
+            return (
+                <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`block card-hover rounded-3xl overflow-hidden mb-10 ${darkMode ? 'bg-gray-800' : 'bg-white'
+                        } shadow-xl`}
+                >
+                    <div className="grid md:grid-cols-2 min-h-[280px]">
+                        {/* Image */}
+                        <div className="relative overflow-hidden h-64 md:h-auto">
+                            {article.image && !imgError ? (
+                                <>
+                                    <img
+                                        src={article.image}
+                                        alt={article.title}
+                                        className="w-full h-full object-cover"
+                                        onError={() => setImgError(true)}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
+                                </>
+                            ) : (
+                                <div className={`w-full h-full bg-gradient-to-br ${categoryConfig.color} flex items-center justify-center`}>
+                                    <span className="text-8xl opacity-60">{categoryConfig.icon}</span>
+                                </div>
+                            )}
+                            <div className="absolute top-4 left-4">
+                                <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full">
+                                    ⭐ À la une
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Contenu */}
+                        <div className="p-8 flex flex-col justify-between">
+                            <div>
+                                <div className="flex items-center gap-2 mb-4">
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${article.sourceColor}`}>
+                                        {article.sourceIcon} {article.source}
+                                    </span>
+                                    <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                        {formatDate(article.publishedAt)}
+                                    </span>
+                                </div>
+
+                                <h2 className={`text-2xl md:text-3xl font-extrabold leading-tight mb-4 ${darkMode ? 'text-white' : 'text-gray-900'
+                                    }`}>
+                                    {article.title}
+                                </h2>
+
+                                <p className={`leading-relaxed line-clamp-3 ${darkMode ? 'text-gray-300' : 'text-gray-600'
+                                    }`}>
+                                    {article.description}
+                                </p>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-6">
+                                <div className={`flex items-center gap-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                    {article.authorAvatar && (
+                                        <img src={article.authorAvatar} alt="" className="w-6 h-6 rounded-full" />
+                                    )}
+                                    <span>{article.author}</span>
+                                    <span>·</span>
+                                    <span>⏱ {article.readTime}</span>
+                                </div>
+                                <span className="gradient-bg text-white px-5 py-2 rounded-full font-bold text-sm hover:opacity-90 transition-all">
+                                    Lire l'article →
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            );
+        };
+
+        /* ============================================
+           COMPOSANT PRINCIPAL : BLOG SECTION
+        ============================================ */
+        const BlogSection = ({ darkMode }) => {
+            const [articles, setArticles] = useState([]);
+            const [filtered, setFiltered] = useState([]);
+            const [isLoading, setIsLoading] = useState(true);
+            const [isRefreshing, setIsRefreshing] = useState(false);
+            const [error, setError] = useState(null);
+            const [activeCategory, setActiveCategory] = useState('all');
+            const [searchQuery, setSearchQuery] = useState('');
+            const [sortBy, setSortBy] = useState('recent');
+            const [nextRefresh, setNextRefresh] = useState(Date.now() + BLOG_CONFIG.REFRESH_INTERVAL);
+            const [visibleCount, setVisibleCount] = useState(9);
+            const [lastUpdate, setLastUpdate] = useState(null);
+
+            /* --- Chargement des articles --- */
+            const loadArticles = useCallback(async (forceRefresh = false) => {
+                // Vérifie le cache localStorage
+                if (!forceRefresh) {
+                    const cachedData = localStorage.getItem(BLOG_CONFIG.CACHE_KEY);
+                    const cachedTimestamp = localStorage.getItem(BLOG_CONFIG.CACHE_TIMESTAMP_KEY);
+
+                    if (cachedData && cachedTimestamp) {
+                        const age = Date.now() - parseInt(cachedTimestamp);
+                        if (age < BLOG_CONFIG.REFRESH_INTERVAL) {
+                            try {
+                                const parsed = JSON.parse(cachedData);
+                                setArticles(parsed);
+                                setLastUpdate(new Date(parseInt(cachedTimestamp)));
+                                const remaining = BLOG_CONFIG.REFRESH_INTERVAL - age;
+                                setNextRefresh(Date.now() + remaining);
+                                setIsLoading(false);
+                                return;
+                            } catch { /* Cache corrompu, on re-fetch */ }
+                        }
+                    }
+                }
+
+                setIsRefreshing(true);
+                setError(null);
+
+                try {
+                    const data = await fetchAllArticles();
+
+                    if (data.length === 0) throw new Error('Aucun article récupéré');
+
+                    setArticles(data);
+                    setLastUpdate(new Date());
+                    setNextRefresh(Date.now() + BLOG_CONFIG.REFRESH_INTERVAL);
+
+                    // Sauvegarde dans le cache
+                    localStorage.setItem(BLOG_CONFIG.CACHE_KEY, JSON.stringify(data));
+                    localStorage.setItem(BLOG_CONFIG.CACHE_TIMESTAMP_KEY, Date.now().toString());
+
+                } catch (err) {
+                    console.error('Erreur chargement blog:', err);
+                    setError('Impossible de charger les articles. Vérifiez votre connexion.');
+
+                    // Essaie de charger le cache même expiré
+                    const cachedData = localStorage.getItem(BLOG_CONFIG.CACHE_KEY);
+                    if (cachedData) {
+                        try {
+                            setArticles(JSON.parse(cachedData));
+                            setError('Cache chargé (données potentiellement anciennes)');
+                        } catch { /* Impossible */ }
+                    }
+                } finally {
+                    setIsLoading(false);
+                    setIsRefreshing(false);
+                }
+            }, []);
+
+            /* --- Chargement initial --- */
+            useEffect(() => {
+                loadArticles(false);
+            }, [loadArticles]);
+
+            /* --- Auto-refresh toutes les 12h --- */
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    loadArticles(true);
+                }, BLOG_CONFIG.REFRESH_INTERVAL);
+
+                return () => clearInterval(interval);
+            }, [loadArticles]);
+
+            /* --- Filtrage et tri --- */
+            useEffect(() => {
+                let result = [...articles];
+
+                // Filtre catégorie
+                if (activeCategory !== 'all') {
+                    result = result.filter(a => a.category === activeCategory);
+                }
+
+                // Filtre recherche
+                if (searchQuery.trim()) {
+                    const q = searchQuery.toLowerCase();
+                    result = result.filter(a =>
+                        a.title.toLowerCase().includes(q) ||
+                        a.description?.toLowerCase().includes(q) ||
+                        a.tags?.some(t => t.toLowerCase().includes(q)) ||
+                        a.author?.toLowerCase().includes(q)
+                    );
+                }
+
+                // Tri
+                switch (sortBy) {
+                    case 'recent':
+                        result.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+                        break;
+                    case 'popular':
+                        result.sort((a, b) => (b.reactions + b.comments) - (a.reactions + a.comments));
+                        break;
+                    case 'readtime':
+                        result.sort((a, b) => parseInt(a.readTime) - parseInt(b.readTime));
+                        break;
+                }
+
+                setFiltered(result);
+                setVisibleCount(9); // Reset pagination
+            }, [articles, activeCategory, searchQuery, sortBy]);
+
+            /* --- Stats --- */
+            const stats = {
+                total: articles.length,
+                devto: articles.filter(a => a.source === 'Dev.to').length,
+                hn: articles.filter(a => a.source === 'Hacker News').length,
+                categories: [...new Set(articles.map(a => a.category))].length
+            };
+
+            /* --- Article featured (plus récent avec image) --- */
+            const featuredArticle = articles.find(a => a.image && a.source === 'Dev.to');
+
+            /* --- Rendu --- */
+            return (
+                <section className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+
+                    {/* News Ticker */}
+                    {!isLoading && articles.length > 0 && (
+                        <NewsTicker articles={articles} darkMode={darkMode} />
+                    )}
+
+                    <div className="max-w-7xl mx-auto px-4 py-16">
+
+                        {/* ---- HEADER ---- */}
+                        <div className="text-center mb-12">
+                            <span className="text-sm font-semibold gradient-text uppercase tracking-widest">
+                                Veille technologique
+                            </span>
+                            <h2 className={`text-4xl md:text-5xl font-extrabold mt-2 mb-4 ${darkMode ? 'text-white' : 'text-gray-900'
+                                }`}>
+                                Blog & Actualités Tech
+                            </h2>
+                            <p className={`text-lg max-w-2xl mx-auto mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                Agrégateur automatique d'articles tech — Dev.to, Hacker News.
+                                Actualisé toutes les <strong>12 heures</strong> automatiquement.
+                            </p>
+
+                            {/* Stats + Refresh */}
+                            <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+                                {!isLoading && (
+                                    <>
+                                        <div className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full ${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600 border'
+                                            } shadow-sm`}>
+                                            📰 <strong>{stats.total}</strong> articles
+                                        </div>
+                                        <div className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full ${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600 border'
+                                            } shadow-sm`}>
+                                            👩‍💻 Dev.to: <strong>{stats.devto}</strong>
+                                        </div>
+                                        <div className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full ${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-600 border'
+                                            } shadow-sm`}>
+                                            🔶 HN: <strong>{stats.hn}</strong>
+                                        </div>
+                                        {lastUpdate && (
+                                            <div className={`flex items-center gap-2 text-xs px-4 py-2 rounded-full ${darkMode ? 'bg-gray-800 text-gray-500' : 'bg-white text-gray-400 border'
+                                                } shadow-sm`}>
+                                                🕐 MàJ: {lastUpdate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                                            </div>
+                                        )}
+                                        <RefreshCountdown
+                                            nextRefresh={nextRefresh}
+                                            darkMode={darkMode}
+                                            onForceRefresh={() => loadArticles(true)}
+                                            isLoading={isRefreshing}
+                                        />
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* ---- BARRE DE RECHERCHE + TRI ---- */}
+                        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                            <div className="relative flex-1">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher un article, tag, auteur..."
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                    className={`w-full pl-12 pr-4 py-3.5 rounded-2xl border outline-none transition-all focus:ring-2 focus:ring-violet-500 text-sm ${darkMode
+                                            ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500'
+                                            : 'bg-white border-gray-200 text-gray-900 placeholder-gray-400'
+                                        } shadow-sm`}
+                                />
+                                {searchQuery && (
+                                    <button
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xl"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+
+                            <select
+                                value={sortBy}
+                                onChange={e => setSortBy(e.target.value)}
+                                className={`px-4 py-3.5 rounded-2xl border outline-none text-sm font-medium cursor-pointer ${darkMode
+                                        ? 'bg-gray-800 border-gray-700 text-white'
+                                        : 'bg-white border-gray-200 text-gray-700'
+                                    } shadow-sm`}
+                            >
+                                <option value="recent">🕐 Plus récent</option>
+                                <option value="popular">🔥 Plus populaire</option>
+                                <option value="readtime">⚡ Lecture rapide</option>
+                            </select>
+                        </div>
+
+                        {/* ---- FILTRES CATÉGORIES ---- */}
+                        <div className="flex flex-wrap gap-2 mb-10">
+                            {BLOG_CONFIG.CATEGORIES.map(cat => {
+                                const count = cat.id === 'all'
+                                    ? articles.length
+                                    : articles.filter(a => a.category === cat.id).length;
+
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        onClick={() => setActiveCategory(cat.id)}
+                                        className={`category-pill flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${activeCategory === cat.id
+                                                ? `bg-gradient-to-r ${cat.color} text-white shadow-lg scale-105`
+                                                : darkMode
+                                                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                                            } shadow-sm`}
+                                    >
+                                        <span>{cat.icon}</span>
+                                        <span>{cat.label}</span>
+                                        <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeCategory === cat.id
+                                                ? 'bg-white/20'
+                                                : darkMode ? 'bg-gray-700' : 'bg-gray-100'
+                                            }`}>
+                                            {count}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* ---- LOADING STATE ---- */}
+                        {isLoading && (
+                            <div>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {Array.from({ length: 9 }).map((_, i) => (
+                                        <SkeletonCard key={i} darkMode={darkMode} />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ---- ERROR STATE ---- */}
+                        {error && !isLoading && articles.length === 0 && (
+                            <div className={`text-center py-20 rounded-3xl ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+                                <div className="text-6xl mb-4">😕</div>
+                                <h3 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                    Impossible de charger les articles
+                                </h3>
+                                <p className={`mb-6 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{error}</p>
+                                <button
+                                    onClick={() => loadArticles(true)}
+                                    className="gradient-bg text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all"
+                                >
+                                    🔄 Réessayer
+                                </button>
+                            </div>
+                        )}
+
+                        {/* ---- CONTENU PRINCIPAL ---- */}
+                        {!isLoading && articles.length > 0 && (
+                            <>
+                                {/* Refreshing banner */}
+                                {isRefreshing && (
+                                    <div className="gradient-bg text-white text-center py-3 rounded-2xl mb-6 font-medium animate-pulse">
+                                        🔄 Actualisation des articles en cours...
+                                    </div>
+                                )}
+
+                                {/* Article à la une */}
+                                {activeCategory === 'all' && !searchQuery && featuredArticle && (
+                                    <FeaturedArticle article={featuredArticle} darkMode={darkMode} />
+                                )}
+
+                                {/* Résultats recherche */}
+                                {searchQuery && (
+                                    <div className={`mb-6 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                        {filtered.length > 0
+                                            ? `✅ ${filtered.length} résultat${filtered.length > 1 ? 's' : ''} pour "${searchQuery}"`
+                                            : `❌ Aucun résultat pour "${searchQuery}"`
+                                        }
+                                    </div>
+                                )}
+
+                                {/* ---- GRILLE D'ARTICLES ---- */}
+                                {filtered.length === 0 && !isLoading ? (
+                                    <div className="text-center py-20">
+                                        <div className="text-6xl mb-4">🔍</div>
+                                        <p className={`text-xl font-semibold ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                            Aucun article trouvé
+                                        </p>
+                                        <button
+                                            onClick={() => { setActiveCategory('all'); setSearchQuery(''); }}
+                                            className="mt-4 gradient-bg text-white px-6 py-2.5 rounded-full font-medium hover:opacity-90"
+                                        >
+                                            Voir tous les articles
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            {filtered.slice(0, visibleCount).map(article => (
+                                                <ArticleCard
+                                                    key={article.id}
+                                                    article={article}
+                                                    darkMode={darkMode}
+                                                />
+                                            ))}
+                                        </div>
+
+                                        {/* Load More */}
+                                        {visibleCount < filtered.length && (
+                                            <div className="text-center mt-12">
+                                                <button
+                                                    onClick={() => setVisibleCount(prev => prev + 9)}
+                                                    className={`px-10 py-4 rounded-full font-bold text-lg border-2 transition-all hover:scale-105 ${darkMode
+                                                            ? 'border-gray-600 text-gray-300 hover:border-violet-500 hover:text-violet-400'
+                                                            : 'border-gray-300 text-gray-700 hover:border-violet-500 hover:text-violet-600'
+                                                        }`}
+                                                >
+                                                    Charger plus ({filtered.length - visibleCount} restants) ↓
+                                                </button>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </>
+                        )}
+
+                        {/* ---- DISCLAIMER ---- */}
+                        <div className={`mt-16 p-6 rounded-2xl text-center text-sm ${darkMode ? 'bg-gray-800 text-gray-400' : 'bg-white text-gray-500 border border-gray-100'
+                            } shadow-sm`}>
+                            <p>
+                                📡 Articles agrégés automatiquement depuis{' '}
+                                <strong>Dev.to</strong> et <strong>Hacker News</strong>.
+                                Tous droits appartiennent à leurs auteurs respectifs.
+                            </p>
+                            <p className="mt-1">
+                                Actualisation automatique toutes les 12h • Cache local actif
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ============================================
+           SECTION : CONTACT
+        ============================================ */
+        const ContactSection = ({ darkMode }) => {
+            const [formData, setFormData] = useState({
+                name: '', email: '', subject: '', message: ''
+            });
+            const [status, setStatus] = useState(null);
+            const [isLoading, setIsLoading] = useState(false);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setIsLoading(true);
+                setTimeout(() => {
+                    setStatus('success');
+                    setIsLoading(false);
+                    setFormData({ name: '', email: '', subject: '', message: '' });
+                    setTimeout(() => setStatus(null), 4000);
+                }, 1200);
+            };
+
+            const contactCards = [
+                {
+                    icon: "📧",
+                    title: "Email",
+                    value: PERSONAL_DATA.email,
+                    link: `mailto:${PERSONAL_DATA.email}`,
+                    color: "from-blue-500 to-cyan-500"
+                },
+                {
+                    icon: "💼",
+                    title: "LinkedIn",
+                    value: "mze-assaf",
+                    link: PERSONAL_DATA.linkedin,
+                    color: "from-blue-600 to-blue-800"
+                },
+                {
+                    icon: "🐙",
+                    title: "GitHub",
+                    value: "Voir mes repos",
+                    link: PERSONAL_DATA.github,
+                    color: "from-gray-700 to-gray-900"
+                },
+                {
+                    icon: "📱",
+                    title: "Téléphone",
+                    value: PERSONAL_DATA.phone,
+                    link: `tel:${PERSONAL_DATA.phone}`,
+                    color: "from-green-500 to-emerald-600"
+                }
+            ];
+
+            return (
+                <section className={`py-24 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+                    <div className="max-w-6xl mx-auto px-4">
+
+                        <div className="text-center mb-16">
+                            <span className="text-sm font-semibold gradient-text uppercase tracking-widest">
+                                Travaillons ensemble
+                            </span>
+                            <h2 className={`text-4xl md:text-5xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                Contactez-moi
+                            </h2>
+                            <p className={`text-xl mt-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                Une opportunité d'alternance ? Un projet ? Je réponds sous 24h ✅
+                            </p>
+                        </div>
+
+                        {/* Cartes de contact */}
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                            {contactCards.map((card, i) => (
+                                <a
+                                    key={i}
+                                    href={card.link}
+                                    target={card.link.startsWith('http') ? '_blank' : '_self'}
+                                    rel="noopener noreferrer"
+                                    className={`card-hover p-5 rounded-2xl flex items-center gap-4 ${darkMode ? 'bg-gray-800' : 'bg-white'
+                                        } shadow-md`}
+                                >
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${card.color} flex items-center justify-center text-xl flex-shrink-0`}>
+                                        {card.icon}
+                                    </div>
+                                    <div>
+                                        <div className={`text-xs font-bold uppercase ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                            {card.title}
+                                        </div>
+                                        <div className={`text-sm font-semibold truncate ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                                            {card.value}
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Formulaire */}
+                        <div className={`max-w-2xl mx-auto rounded-3xl p-8 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl`}>
+                            <h3 className={`text-xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                ✉️ Envoyer un message
+                            </h3>
+
+                            <form onSubmit={handleSubmit} className="space-y-5">
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    {[
+                                        { name: 'name', label: 'Nom', type: 'text', placeholder: 'Votre nom' },
+                                        { name: 'email', label: 'Email', type: 'email', placeholder: 'votre@email.com' }
+                                    ].map(field => (
+                                        <div key={field.name}>
+                                            <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                {field.label} *
+                                            </label>
+                                            <input
+                                                type={field.type}
+                                                name={field.name}
+                                                value={formData[field.name]}
+                                                onChange={e => setFormData({ ...formData, [e.target.name]: e.target.value })}
+                                                required
+                                                placeholder={field.placeholder}
+                                                className={`w-full px-4 py-3 rounded-xl border transition-all focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none ${darkMode
+                                                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                                                        : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
+                                                    }`}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div>
+                                    <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                        Sujet *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="subject"
+                                        value={formData.subject}
+                                        onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                                        required
+                                        placeholder="Ex: Proposition d'alternance"
+                                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none ${darkMode
+                                                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                                                : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
+                                            }`}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                        Message *
+                                    </label>
+                                    <textarea
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={e => setFormData({ ...formData, message: e.target.value })}
+                                        required
+                                        rows={5}
+                                        placeholder="Décrivez votre projet ou opportunité..."
+                                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none resize-none ${darkMode
+                                                ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                                                : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
+                                            }`}
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="w-full gradient-bg text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-all disabled:opacity-50 hover:scale-[1.02]"
+                                >
+                                    {isLoading ? '⏳ Envoi en cours...' : '🚀 Envoyer le message'}
+                                </button>
+
+                                {status === 'success' && (
+                                    <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-center font-medium">
+                                        ✅ Message envoyé ! Je vous réponds sous 24h.
+                                    </div>
+                                )}
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        const Footer = ({ darkMode, setActiveSection }) => {
+            return (
+                <footer className={`py-12 border-t ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'
+                    }`}>
+                    <div className="max-w-6xl mx-auto px-4">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+
+                            <div>
+                                <div className="text-2xl font-bold gradient-text mb-1">Mzé.dev</div>
+                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                    Développeur Fullstack • Alternance 2026
+                                </p>
+                            </div>
+
+                            <div className="flex gap-3">
+                                {[
+                                    { icon: '💼', url: PERSONAL_DATA.linkedin, title: 'LinkedIn' },
+                                    { icon: '🐙', url: PERSONAL_DATA.github, title: 'GitHub' },
+                                    { icon: '📧', url: `mailto:${PERSONAL_DATA.email}`, title: 'Email' }
+                                ].map((s, i) => (
+                                    <a
+                                        key={i}
+                                        href={s.url}
+                                        title={s.title}
+                                        target={s.url.startsWith('http') ? '_blank' : '_self'}
+                                        rel="noopener noreferrer"
+                                        className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all hover:scale-110 ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'
+                                            }`}
+                                    >
+                                        {s.icon}
+                                    </a>
+                                ))}
+                            </div>
+
+                            <p className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                                © 2025 Mzé ABDALLAH · Fait avec ❤️
+                            </p>
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+
+
+        /* ============================================
+           APP PRINCIPALE
+        ============================================ */
+        const App = () => {
+            const [activeSection, setActiveSection] = useState('home');
+            const [darkMode, setDarkMode] = useState(false);
+
+            useEffect(() => {
+                const saved = localStorage.getItem('mze-theme');
+                if (saved === 'dark') setDarkMode(true);
+            }, []);
+
+            useEffect(() => {
+                localStorage.setItem('mze-theme', darkMode ? 'dark' : 'light');
+                document.body.style.backgroundColor = darkMode ? '#111827' : '#ffffff';
+            }, [darkMode]);
+
+            // Scroll to top on section change
+            useEffect(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, [activeSection]);
+
+
+
+            const renderSection = () => {
+                const props = { darkMode, setActiveSection };
+                switch (activeSection) {
+                    case 'home': return <HeroSection {...props} />;
+                    case 'about': return <AboutSection {...props} />;
+                    case 'experience': return <ExperienceSection {...props} />;
+                    case 'projects': return <ProjectsSection {...props} />;
+                    case 'blog': return <BlogSection {...props} />; // ← AJOUTE ÇA
+                    case 'contact': return <ContactSection {...props} />;
+                    default: return <HeroSection {...props} />;
+                }
+            };
+
+            return (
+                <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+                    <Navigation
+                        activeSection={activeSection}
+                        setActiveSection={setActiveSection}
+                        darkMode={darkMode}
+                        setDarkMode={setDarkMode}
+                    />
+                    <main className="pt-16">
+                        <div className="fade-in" key={activeSection}>
+                            {renderSection()}
+                        </div>
+                    </main>
+                    <Footer darkMode={darkMode} setActiveSection={setActiveSection} />
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
